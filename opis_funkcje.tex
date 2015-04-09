@@ -1,0 +1,46 @@
+\documentclass[2pt]{article}
+
+\usepackage[utf8x]{inputenc}
+\usepackage{ucs}
+\usepackage[MeX]{polski}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{lscape}
+\newcommand\V[1]{\textup{#1}}
+
+\begin{document}
+\title{Sprawozdanie}
+\author{Adam Prochownik}
+
+\date{26 marca 2015}
+
+\section{dane firmy}
+Dodaj firmę - dodaję firmę, jako argumenty przyjmuję Nazwę i opis \\
+
+Usuń firmę - usuwa firmę, wszystkie jej zadania itp. argumenty: id firmy. \\
+
+Edytuj firmę - zmienia nazwę firmy i opis, argumenty: id firmy,  nazwa, opis. \\
+
+\section{zadania}
+Dodaj zadanie - dodaje zadanie, uzupełnia datę przyjęcia, uzupełnia operacje przypisane do zadania. Argumenty: operacje, id firmy, id maszyn. \\
+
+Usuń zadania - usuwa pojedyncze zadanie, razem z wszystkimi przypisanego do niego operacjami, oraz znalezionymi permutacjami oraz przypisanymi maszynami. Argumenty: pojedyncze zadanie. \\
+
+\section{maszyny}
+Dodaj maszynę - dodaję nową maszynę do systemu. Argumenty: opis maszyny. \\
+
+Usuń maszynę - usuwa maszynę, razem ze wszystkimi procesami i zadaniami, które ją wykorzystują. Argumenty: id maszyny.\\
+
+Sprawdź\_czy\_używana - sprawdza, czy dana maszyna jest używana w jakimś zadaniu/procesie. Argumenty: id maszyna. \\
+
+\section{permutacja\_operacje}
+Policz permutację - oblicza permutację i uzupełnia datę obliczenia w tabeli zadania. Argumenty: id zadania. \\
+
+\end{document}
