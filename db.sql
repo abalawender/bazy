@@ -35,8 +35,8 @@ SET default_with_oids = false;
 
 CREATE TABLE dane_firmy (
     id integer NOT NULL,
-    nazwa "char"[],
-    adres "char"[]
+    nazwa text,
+    adres text
 );
 
 
@@ -46,7 +46,7 @@ CREATE TABLE dane_firmy (
 
 CREATE TABLE maszyny (
     id integer NOT NULL,
-    opis character varying[]
+    opis text
 );
 
 
