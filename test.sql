@@ -34,7 +34,7 @@ SET search_path = public, pg_catalog;
 
 --
 -- TOC entry 178 (class 1259 OID 16596)
--- Name: dane_firmy_seq; Type: SEQUENCE; Schema: public; Owner: phaezah7
+-- Name: dane_firmy_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE dane_firmy_seq
@@ -45,7 +45,7 @@ CREATE SEQUENCE dane_firmy_seq
     CACHE 1;
 
 
-ALTER TABLE dane_firmy_seq OWNER TO phaezah7;
+ALTER TABLE dane_firmy_seq;
 
 SET default_tablespace = '';
 
@@ -53,7 +53,7 @@ SET default_with_oids = false;
 
 --
 -- TOC entry 172 (class 1259 OID 16533)
--- Name: dane_firmy; Type: TABLE; Schema: public; Owner: phaezah7; Tablespace: 
+-- Name: dane_firmy; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE dane_firmy (
@@ -63,11 +63,11 @@ CREATE TABLE dane_firmy (
 );
 
 
-ALTER TABLE dane_firmy OWNER TO phaezah7;
+ALTER TABLE dane_firmy OWNER TO -;
 
 --
 -- TOC entry 179 (class 1259 OID 16598)
--- Name: maszyny_seq; Type: SEQUENCE; Schema: public; Owner: phaezah7
+-- Name: maszyny_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE maszyny_seq
@@ -78,11 +78,11 @@ CREATE SEQUENCE maszyny_seq
     CACHE 1;
 
 
-ALTER TABLE maszyny_seq OWNER TO phaezah7;
+ALTER TABLE maszyny_seq OWNER TO -;
 
 --
 -- TOC entry 173 (class 1259 OID 16539)
--- Name: maszyny; Type: TABLE; Schema: public; Owner: phaezah7; Tablespace: 
+-- Name: maszyny; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE maszyny (
@@ -91,11 +91,11 @@ CREATE TABLE maszyny (
 );
 
 
-ALTER TABLE maszyny OWNER TO phaezah7;
+ALTER TABLE maszyny OWNER TO -;
 
 --
 -- TOC entry 180 (class 1259 OID 16600)
--- Name: maszyny_operacje_seq; Type: SEQUENCE; Schema: public; Owner: phaezah7
+-- Name: maszyny_operacje_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE maszyny_operacje_seq
@@ -106,11 +106,11 @@ CREATE SEQUENCE maszyny_operacje_seq
     CACHE 1;
 
 
-ALTER TABLE maszyny_operacje_seq OWNER TO phaezah7;
+ALTER TABLE maszyny_operacje_seq OWNER TO -;
 
 --
 -- TOC entry 174 (class 1259 OID 16545)
--- Name: maszyny_operacje; Type: TABLE; Schema: public; Owner: phaezah7; Tablespace: 
+-- Name: maszyny_operacje; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE maszyny_operacje (
@@ -120,11 +120,11 @@ CREATE TABLE maszyny_operacje (
 );
 
 
-ALTER TABLE maszyny_operacje OWNER TO phaezah7;
+ALTER TABLE maszyny_operacje OWNER TO -;
 
 --
 -- TOC entry 181 (class 1259 OID 16602)
--- Name: operacje_seq; Type: SEQUENCE; Schema: public; Owner: phaezah7
+-- Name: operacje_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE operacje_seq
@@ -135,11 +135,11 @@ CREATE SEQUENCE operacje_seq
     CACHE 1;
 
 
-ALTER TABLE operacje_seq OWNER TO phaezah7;
+ALTER TABLE operacje_seq OWNER TO -;
 
 --
 -- TOC entry 175 (class 1259 OID 16548)
--- Name: operacje; Type: TABLE; Schema: public; Owner: phaezah7; Tablespace: 
+-- Name: operacje; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE operacje (
@@ -149,11 +149,11 @@ CREATE TABLE operacje (
 );
 
 
-ALTER TABLE operacje OWNER TO phaezah7;
+ALTER TABLE operacje OWNER TO -;
 
 --
 -- TOC entry 182 (class 1259 OID 16604)
--- Name: permutacja_operacje_seq; Type: SEQUENCE; Schema: public; Owner: phaezah7
+-- Name: permutacja_operacje_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE permutacja_operacje_seq
@@ -164,11 +164,11 @@ CREATE SEQUENCE permutacja_operacje_seq
     CACHE 1;
 
 
-ALTER TABLE permutacja_operacje_seq OWNER TO phaezah7;
+ALTER TABLE permutacja_operacje_seq OWNER TO -;
 
 --
 -- TOC entry 176 (class 1259 OID 16551)
--- Name: permutacja_operacje; Type: TABLE; Schema: public; Owner: phaezah7; Tablespace: 
+-- Name: permutacja_operacje; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE permutacja_operacje (
@@ -178,12 +178,12 @@ CREATE TABLE permutacja_operacje (
 );
 
 
-ALTER TABLE permutacja_operacje OWNER TO phaezah7;
+ALTER TABLE permutacja_operacje OWNER TO -;
 
 --
 -- TOC entry 2070 (class 0 OID 0)
 -- Dependencies: 176
--- Name: COLUMN permutacja_operacje.id_operacja; Type: COMMENT; Schema: public; Owner: phaezah7
+-- Name: COLUMN permutacja_operacje.id_operacja; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN permutacja_operacje.id_operacja IS '
@@ -192,7 +192,7 @@ COMMENT ON COLUMN permutacja_operacje.id_operacja IS '
 
 --
 -- TOC entry 183 (class 1259 OID 16606)
--- Name: zadania_seq; Type: SEQUENCE; Schema: public; Owner: phaezah7
+-- Name: zadania_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE zadania_seq
@@ -203,11 +203,11 @@ CREATE SEQUENCE zadania_seq
     CACHE 1;
 
 
-ALTER TABLE zadania_seq OWNER TO phaezah7;
+ALTER TABLE zadania_seq OWNER TO -;
 
 --
 -- TOC entry 177 (class 1259 OID 16554)
--- Name: zadania; Type: TABLE; Schema: public; Owner: phaezah7; Tablespace: 
+-- Name: zadania; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE zadania (
@@ -218,12 +218,12 @@ CREATE TABLE zadania (
 );
 
 
-ALTER TABLE zadania OWNER TO phaezah7;
+ALTER TABLE zadania OWNER TO -;
 
 --
 -- TOC entry 2050 (class 0 OID 16533)
 -- Dependencies: 172
--- Data for Name: dane_firmy; Type: TABLE DATA; Schema: public; Owner: phaezah7
+-- Data for Name: dane_firmy; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY dane_firmy (id, nazwa, adres) FROM stdin;
@@ -233,7 +233,7 @@ COPY dane_firmy (id, nazwa, adres) FROM stdin;
 --
 -- TOC entry 2071 (class 0 OID 0)
 -- Dependencies: 178
--- Name: dane_firmy_seq; Type: SEQUENCE SET; Schema: public; Owner: phaezah7
+-- Name: dane_firmy_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('dane_firmy_seq', 1, false);
@@ -242,7 +242,7 @@ SELECT pg_catalog.setval('dane_firmy_seq', 1, false);
 --
 -- TOC entry 2051 (class 0 OID 16539)
 -- Dependencies: 173
--- Data for Name: maszyny; Type: TABLE DATA; Schema: public; Owner: phaezah7
+-- Data for Name: maszyny; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY maszyny (id, opis) FROM stdin;
@@ -252,7 +252,7 @@ COPY maszyny (id, opis) FROM stdin;
 --
 -- TOC entry 2052 (class 0 OID 16545)
 -- Dependencies: 174
--- Data for Name: maszyny_operacje; Type: TABLE DATA; Schema: public; Owner: phaezah7
+-- Data for Name: maszyny_operacje; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY maszyny_operacje (id, id_operacje, id_maszyna) FROM stdin;
@@ -262,7 +262,7 @@ COPY maszyny_operacje (id, id_operacje, id_maszyna) FROM stdin;
 --
 -- TOC entry 2072 (class 0 OID 0)
 -- Dependencies: 180
--- Name: maszyny_operacje_seq; Type: SEQUENCE SET; Schema: public; Owner: phaezah7
+-- Name: maszyny_operacje_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('maszyny_operacje_seq', 1, false);
@@ -271,7 +271,7 @@ SELECT pg_catalog.setval('maszyny_operacje_seq', 1, false);
 --
 -- TOC entry 2073 (class 0 OID 0)
 -- Dependencies: 179
--- Name: maszyny_seq; Type: SEQUENCE SET; Schema: public; Owner: phaezah7
+-- Name: maszyny_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('maszyny_seq', 1, false);
@@ -280,7 +280,7 @@ SELECT pg_catalog.setval('maszyny_seq', 1, false);
 --
 -- TOC entry 2053 (class 0 OID 16548)
 -- Dependencies: 175
--- Data for Name: operacje; Type: TABLE DATA; Schema: public; Owner: phaezah7
+-- Data for Name: operacje; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY operacje (id, koszt, id_zadania) FROM stdin;
@@ -290,7 +290,7 @@ COPY operacje (id, koszt, id_zadania) FROM stdin;
 --
 -- TOC entry 2074 (class 0 OID 0)
 -- Dependencies: 181
--- Name: operacje_seq; Type: SEQUENCE SET; Schema: public; Owner: phaezah7
+-- Name: operacje_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('operacje_seq', 1, false);
@@ -299,7 +299,7 @@ SELECT pg_catalog.setval('operacje_seq', 1, false);
 --
 -- TOC entry 2054 (class 0 OID 16551)
 -- Dependencies: 176
--- Data for Name: permutacja_operacje; Type: TABLE DATA; Schema: public; Owner: phaezah7
+-- Data for Name: permutacja_operacje; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY permutacja_operacje (id, id_operacja, kolejnosc) FROM stdin;
@@ -309,7 +309,7 @@ COPY permutacja_operacje (id, id_operacja, kolejnosc) FROM stdin;
 --
 -- TOC entry 2075 (class 0 OID 0)
 -- Dependencies: 182
--- Name: permutacja_operacje_seq; Type: SEQUENCE SET; Schema: public; Owner: phaezah7
+-- Name: permutacja_operacje_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('permutacja_operacje_seq', 1, false);
@@ -318,7 +318,7 @@ SELECT pg_catalog.setval('permutacja_operacje_seq', 1, false);
 --
 -- TOC entry 2055 (class 0 OID 16554)
 -- Dependencies: 177
--- Data for Name: zadania; Type: TABLE DATA; Schema: public; Owner: phaezah7
+-- Data for Name: zadania; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY zadania (id, data_przyjecia, id_firmy, data_obliczenia) FROM stdin;
@@ -328,7 +328,7 @@ COPY zadania (id, data_przyjecia, id_firmy, data_obliczenia) FROM stdin;
 --
 -- TOC entry 2076 (class 0 OID 0)
 -- Dependencies: 183
--- Name: zadania_seq; Type: SEQUENCE SET; Schema: public; Owner: phaezah7
+-- Name: zadania_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('zadania_seq', 1, false);
@@ -336,7 +336,7 @@ SELECT pg_catalog.setval('zadania_seq', 1, false);
 
 --
 -- TOC entry 1925 (class 2606 OID 16558)
--- Name: PK_Maszyny_id; Type: CONSTRAINT; Schema: public; Owner: phaezah7; Tablespace: 
+-- Name: PK_Maszyny_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY maszyny
@@ -345,7 +345,7 @@ ALTER TABLE ONLY maszyny
 
 --
 -- TOC entry 1931 (class 2606 OID 16560)
--- Name: PK_id; Type: CONSTRAINT; Schema: public; Owner: phaezah7; Tablespace: 
+-- Name: PK_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY operacje
@@ -354,7 +354,7 @@ ALTER TABLE ONLY operacje
 
 --
 -- TOC entry 1927 (class 2606 OID 16562)
--- Name: PK_maszyny_zadania; Type: CONSTRAINT; Schema: public; Owner: phaezah7; Tablespace: 
+-- Name: PK_maszyny_zadania; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY maszyny_operacje
@@ -363,7 +363,7 @@ ALTER TABLE ONLY maszyny_operacje
 
 --
 -- TOC entry 1933 (class 2606 OID 16564)
--- Name: PK_permutacja_id; Type: CONSTRAINT; Schema: public; Owner: phaezah7; Tablespace: 
+-- Name: PK_permutacja_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY permutacja_operacje
@@ -372,7 +372,7 @@ ALTER TABLE ONLY permutacja_operacje
 
 --
 -- TOC entry 1929 (class 2606 OID 16566)
--- Name: UNIQUE_maszyny_zadania_id; Type: CONSTRAINT; Schema: public; Owner: phaezah7; Tablespace: 
+-- Name: UNIQUE_maszyny_zadania_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY maszyny_operacje
@@ -381,7 +381,7 @@ ALTER TABLE ONLY maszyny_operacje
 
 --
 -- TOC entry 1923 (class 2606 OID 16568)
--- Name: klucz_glowny; Type: CONSTRAINT; Schema: public; Owner: phaezah7; Tablespace: 
+-- Name: klucz_glowny; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY dane_firmy
@@ -390,7 +390,7 @@ ALTER TABLE ONLY dane_firmy
 
 --
 -- TOC entry 1935 (class 2606 OID 16570)
--- Name: pk_id; Type: CONSTRAINT; Schema: public; Owner: phaezah7; Tablespace: 
+-- Name: pk_id; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY zadania
@@ -399,7 +399,7 @@ ALTER TABLE ONLY zadania
 
 --
 -- TOC entry 1938 (class 2606 OID 16571)
--- Name: FK_id_proces; Type: FK CONSTRAINT; Schema: public; Owner: phaezah7
+-- Name: FK_id_proces; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY operacje
@@ -408,7 +408,7 @@ ALTER TABLE ONLY operacje
 
 --
 -- TOC entry 1936 (class 2606 OID 16576)
--- Name: FK_maszyny_zadania_zadania; Type: FK CONSTRAINT; Schema: public; Owner: phaezah7
+-- Name: FK_maszyny_zadania_zadania; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY maszyny_operacje
@@ -417,7 +417,7 @@ ALTER TABLE ONLY maszyny_operacje
 
 --
 -- TOC entry 1937 (class 2606 OID 16581)
--- Name: FK_maszyny_zdania_maszyny; Type: FK CONSTRAINT; Schema: public; Owner: phaezah7
+-- Name: FK_maszyny_zdania_maszyny; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY maszyny_operacje
@@ -426,7 +426,7 @@ ALTER TABLE ONLY maszyny_operacje
 
 --
 -- TOC entry 1939 (class 2606 OID 16586)
--- Name: FK_permutacje_operacje_operacja; Type: FK CONSTRAINT; Schema: public; Owner: phaezah7
+-- Name: FK_permutacje_operacje_operacja; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY permutacja_operacje
@@ -435,7 +435,7 @@ ALTER TABLE ONLY permutacja_operacje
 
 --
 -- TOC entry 1940 (class 2606 OID 16591)
--- Name: fk_firma; Type: FK CONSTRAINT; Schema: public; Owner: phaezah7
+-- Name: fk_firma; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY zadania
