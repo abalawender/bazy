@@ -59,9 +59,6 @@ class SerwisBazodanowy:
         print('Tutaj bedzie usuwanie')        
     
 
-serwis = SerwisBazodanowy()
-serwis.WyswietlZawartoscWszystkichTabel()
-
 def Dodawanie_jakis_danych():
         firma = DaneFirmy( nazwa="Monsters Inc.", adres="USA" )
         
@@ -89,5 +86,9 @@ def Dodawanie_jakis_danych():
         session.add(nowe_permutacje)
         session.flush()
         session.commit()
-Dodawanie_jakis_danych()
+if __name__ == "__main__":
+    Doawanie_jakis_danych()
+    serwis = SerwisBazodanowy()
+    #serwis.DodajZadanie()
+    serwis.WyswietlZawartoscWszystkichTabel()
         
