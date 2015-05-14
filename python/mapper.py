@@ -2,8 +2,7 @@ import sqlalchemy
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-
-engine = sqlalchemy.create_engine("postgresql://postgres:postgres@localhost/Test", echo=not True)
+engine = sqlalchemy.create_engine("postgresql://postgres:postgres@localhost/test", echo=not True)
 
 import sqlalchemy.ext.declarative
 Base =  sqlalchemy.ext.declarative.declarative_base()
