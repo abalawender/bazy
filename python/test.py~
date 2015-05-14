@@ -37,24 +37,8 @@ class SerwisBazodanowy:
             for permutacja in session.query( PermutacjaOperacji ):
                 print (permutacja)
 
-    def DodajZadanie(self, id_firmy, operacje):
-	    zadanie = Zadanie(data_przyjecia = now, id_firmy=id_firmy)
-	    session.add(zadanie)
-	    session.flush()
-	    
-	    operacje_slownik = [ {1 : 7, 2 : 5}, {1:2, 2:4}]  
-
-	    for nowa_operacja in operacje_slownik:
-		 operacja = Operacja(zadanie.id)
-		 session.add(operacja)
-		 session.flush()
-		 for operacja_konkretna_maszyna in nowa_operacja
-		 	polaczenieOperacjaMaszyna = PowiazanieOperacjiZMaszyna(id_operacje=operacja.id, id_maszyna = operacja_konkretna_maszyna.
-
-#
-#		 session.add( Operacja(id_zadania = zadanie.id)
-#		 session.flush()
-#		 session
+    def DodajZadanie(self, id_firmy, operacje)
+	    koszt
 
     def DodajZadanie(self):
 	     print("Tu bedzie dodawanie zadan")
@@ -76,11 +60,11 @@ nowa_maszyna = Maszyna(opis = "Nowa maszyna")
 session.add( nowa_maszyna )
 session.flush()
 
-nowa_operacja = Operacja(id_zadania = zadanie.id)
+nowa_operacja = Operacja(koszt = 5, id_zadania = zadanie.id)
 session.add( nowa_operacja)
 session.flush()
 
-nowe_powiazanie = PowiazanieOperacjiZMaszyna(id_operacje = nowa_operacja.id, id_maszyna = nowa_maszyna.id, koszt = 5)
+nowe_powiazanie = PowiazanieOperacjiZMaszyna(id_operacje = nowa_operacja.id, id_maszyna = nowa_maszyna.id)
 session.add(nowe_powiazanie)
 session.flush()
 
@@ -89,5 +73,4 @@ session.add(nowe_permutacje)
 session.flush()
 session.commit()
 
-serwis = SerwisBazodanowy()
-serwis.WyswietlZawartoscWszystkichTabel()
+WyswietlZawartoscWszystkichTabel()

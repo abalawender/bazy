@@ -1,4 +1,4 @@
---
+﻿--
 -- PostgreSQL database dump
 --
 
@@ -44,9 +44,6 @@ CREATE SEQUENCE dane_firmy_seq
     NO MAXVALUE
     CACHE 1;
 
-
-ALTER TABLE dane_firmy_seq;
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -63,7 +60,7 @@ CREATE TABLE dane_firmy (
 );
 
 
-ALTER TABLE dane_firmy OWNER TO -;
+--ALTER TABLE dane_firmy OWNER TO -;
 
 --
 -- TOC entry 179 (class 1259 OID 16598)
@@ -78,7 +75,7 @@ CREATE SEQUENCE maszyny_seq
     CACHE 1;
 
 
-ALTER TABLE maszyny_seq OWNER TO -;
+--ALTER TABLE maszyny_seq OWNER TO -;
 
 --
 -- TOC entry 173 (class 1259 OID 16539)
@@ -91,7 +88,7 @@ CREATE TABLE maszyny (
 );
 
 
-ALTER TABLE maszyny OWNER TO -;
+--ALTER TABLE maszyny OWNER TO -;
 
 --
 -- TOC entry 180 (class 1259 OID 16600)
@@ -106,7 +103,7 @@ CREATE SEQUENCE maszyny_operacje_seq
     CACHE 1;
 
 
-ALTER TABLE maszyny_operacje_seq OWNER TO -;
+--ALTER TABLE maszyny_operacje_seq OWNER TO -;
 
 --
 -- TOC entry 174 (class 1259 OID 16545)
@@ -120,7 +117,7 @@ CREATE TABLE maszyny_operacje (
 );
 
 
-ALTER TABLE maszyny_operacje OWNER TO -;
+--ALTER TABLE maszyny_operacje OWNER TO -;
 
 --
 -- TOC entry 181 (class 1259 OID 16602)
@@ -135,7 +132,7 @@ CREATE SEQUENCE operacje_seq
     CACHE 1;
 
 
-ALTER TABLE operacje_seq OWNER TO -;
+--ALTER TABLE operacje_seq OWNER TO -;
 
 --
 -- TOC entry 175 (class 1259 OID 16548)
@@ -149,7 +146,7 @@ CREATE TABLE operacje (
 );
 
 
-ALTER TABLE operacje OWNER TO -;
+--ALTER TABLE operacje OWNER TO -;
 
 --
 -- TOC entry 182 (class 1259 OID 16604)
@@ -164,7 +161,7 @@ CREATE SEQUENCE permutacja_operacje_seq
     CACHE 1;
 
 
-ALTER TABLE permutacja_operacje_seq OWNER TO -;
+--ALTER TABLE permutacja_operacje_seq OWNER TO -;
 
 --
 -- TOC entry 176 (class 1259 OID 16551)
@@ -178,7 +175,7 @@ CREATE TABLE permutacja_operacje (
 );
 
 
-ALTER TABLE permutacja_operacje OWNER TO -;
+--ALTER TABLE permutacja_operacje OWNER TO -;
 
 --
 -- TOC entry 2070 (class 0 OID 0)
@@ -203,7 +200,7 @@ CREATE SEQUENCE zadania_seq
     CACHE 1;
 
 
-ALTER TABLE zadania_seq OWNER TO -;
+--ALTER TABLE zadania_seq OWNER TO -;
 
 --
 -- TOC entry 177 (class 1259 OID 16554)
@@ -218,7 +215,7 @@ CREATE TABLE zadania (
 );
 
 
-ALTER TABLE zadania OWNER TO -;
+--ALTER TABLE zadania OWNER TO -;
 
 --
 -- TOC entry 2050 (class 0 OID 16533)
