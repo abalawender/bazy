@@ -4,6 +4,8 @@ import mapper
 from mapper import *
 from sqlalchemy.orm import sessionmaker
 Session = sessionmaker(bind=mapper.engine)
+session = Session()
+
 Base.metadata.bind = mapper.engine
 Base.metadata.create_all()
 import datetime
@@ -37,57 +39,55 @@ class SerwisBazodanowy:
             for permutacja in session.query( PermutacjaOperacji ):
                 print (permutacja)
 
-    def DodajZadanie(self, id_firmy, operacje):
-	    zadanie = Zadanie(data_przyjecia = now, id_firmy=id_firmy)
-	    session.add(zadanie)
-	    session.flush()
-	    
-	    operacje_slownik = [ {1 : 7, 2 : 5}, {1:2, 2:4}]  
+    def DodajZadanie(self, id_firmy,operacje_slownik):
+            zadanie = Zadanie(data_przyjecia = now, id_firmy=id_firmy, data_obliczenia=now)
+            session.add(zadanie)
+            session.flush()
+            for nowa_operacja in operacje_slownik:
+                 operacja = Operacja(id_zadania = zadanie.id)
+                 session.add(operacja)
+                 session.flush()
+                 for operacja_konkretna_maszyna in nowa_operacja:
+                        polaczenieOperacjaMaszyna = PowiazanieOperacjiZMaszyna(id_operacje=operacja.id, id_maszyna = operacja_konkretna_maszyna[0], koszt=operacja_konkretna_maszyna[1])
+                        session.add(polaczenieOperacjaMaszyna)
+                        session.flush()
 
-	    for nowa_operacja in operacje_slownik:
-		 operacja = Operacja(zadanie.id)
-		 session.add(operacja)
-		 session.flush()
-		 for operacja_konkretna_maszyna in nowa_operacja
-		 	polaczenieOperacjaMaszyna = PowiazanieOperacjiZMaszyna(id_operacje=operacja.id, id_maszyna = operacja_konkretna_maszyna.
+            session.commit()
+            return zadanie
 
-#
-#		 session.add( Operacja(id_zadania = zadanie.id)
-#		 session.flush()
-#		 session
-
-    def DodajZadanie(self):
-	     print("Tu bedzie dodawanie zadan")
-
-
-serwis = SerwisBazodanowy()
-firma = DaneFirmy( nazwa="Monsters Inc.", adres="USA" )
-
-session = Session()
-session.add( firma )
-session.flush()
-
-zadanie = Zadanie( data_przyjecia=now, id_firmy=firma.id, data_obliczenia=now )
-session.add( zadanie )
-session.flush()
-
-nowa_maszyna = Maszyna(opis = "Nowa maszyna")
-
-session.add( nowa_maszyna )
-session.flush()
-
-nowa_operacja = Operacja(id_zadania = zadanie.id)
-session.add( nowa_operacja)
-session.flush()
-
-nowe_powiazanie = PowiazanieOperacjiZMaszyna(id_operacje = nowa_operacja.id, id_maszyna = nowa_maszyna.id, koszt = 5)
-session.add(nowe_powiazanie)
-session.flush()
-
-nowe_permutacje = PermutacjaOperacji(id_operacja = nowa_operacja.id, kolejnosc = 1)
-session.add(nowe_permutacje)
-session.flush()
-session.commit()
+    def UsunZadanie(self, id_zadania):
+        print('Tutaj bedzie usuwanie')        
+    
 
 serwis = SerwisBazodanowy()
 serwis.WyswietlZawartoscWszystkichTabel()
+
+def Dodawanie_jakis_danych():
+        firma = DaneFirmy( nazwa="Monsters Inc.", adres="USA" )
+        
+        session.add( firma )
+        session.flush()
+        
+        zadanie = Zadanie( data_przyjecia=now, id_firmy=firma.id, data_obliczenia=now )
+        session.add( zadanie )
+        session.flush()
+        
+        nowa_maszyna = Maszyna(opis = "Nowa maszyna")
+        
+        session.add( nowa_maszyna )
+        session.flush()
+        
+        nowa_operacja = Operacja(id_zadania = zadanie.id)
+        session.add( nowa_operacja)
+        session.flush()
+        
+        nowe_powiazanie = PowiazanieOperacjiZMaszyna(id_operacje = nowa_operacja.id, id_maszyna = nowa_maszyna.id, koszt = 5)
+        session.add(nowe_powiazanie)
+        session.flush()
+        
+        nowe_permutacje = PermutacjaOperacji(id_operacja = nowa_operacja.id, kolejnosc = 1)
+        session.add(nowe_permutacje)
+        session.flush()
+        session.commit()
+Dodawanie_jakis_danych()
+        
