@@ -38,22 +38,27 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         """ Handle HTTP POST Request"""
-        self.path = pathExtract(self.path)
-        if self.path in (''):
-            self.send_response(200, 'OK')
-            self.end_headers()
-            with open('report.html', 'rb') as fileHandle:
-                self.wfile.write(fileHandle.read())
-            length = int(self.headers['content-length'])
-            data = self.rfile.read(length)
-        elif os.path.isfile(self.path):
-            self.send_response(200, 'OK')
-            self.end_headers()
-            with open(os.getcwd() + os.sep + self.path, 'rb') as fileHandle:
-                self.wfile.write(fileHandle.read())
-        else:
-            self.send_response(404, 'Not Found')
-            self.end_headers()
+        self.send_response(200, 'OK')
+        self.end_headers()
+        length = int(self.headers['content-length'])
+        data = self.rfile.read(length)
+        print(data)
+        #self.path = pathExtract(self.path)
+        #if self.path in (''):
+        #    self.send_response(200, 'OK')
+        #    self.end_headers()
+        #    with open('report.html', 'rb') as fileHandle:
+        #        self.wfile.write(fileHandle.read())
+        #    length = int(self.headers['content-length'])
+        #    data = self.rfile.read(length)
+        #elif os.path.isfile(self.path):
+        #    self.send_response(200, 'OK')
+        #    self.end_headers()
+        #    with open(os.getcwd() + os.sep + self.path, 'rb') as fileHandle:
+        #        self.wfile.write(fileHandle.read())
+        #else:
+        #    self.send_response(404, 'Not Found')
+        #    self.end_headers()
     def log_message(self, frmt, *args):
         pass
 
