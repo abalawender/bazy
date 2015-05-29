@@ -87,7 +87,7 @@ def Dodawanie_jakis_danych():
         session.flush()
         session.commit()
 if __name__ == "__main__":
-    Doawanie_jakis_danych()
+    Dodawanie_jakis_danych()
     serwis = SerwisBazodanowy()
     #serwis.DodajZadanie()
     serwis.WyswietlZawartoscWszystkichTabel()
