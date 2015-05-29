@@ -1,14 +1,17 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jul  8 13:04:43 2014
-
-@author: balawend
-"""
 import os, sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import datetime as dt
 import urllib.parse
 import time
+import mapper
+from mapper import *
+from sqlalchemy.orm import sessionmaker
+Session = sessionmaker(bind=mapper.engine)
+session = Session()
+
+Base.metadata.bind = mapper.engine
+Base.metadata.create_all()
+now = dt.datetime.now()
 
 PORT = 8080
 
@@ -42,7 +45,25 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         length = int(self.headers['content-length'])
         data = self.rfile.read(length)
-        print(data)
+        print(self.path, ": ", data)
+        import urllib.parse
+        parsed = urllib.parse.parse_qs(data)
+        dec = lambda x: x.decode( encoding='utf-8', errors='replace' )
+        parsed2 = { dec(k):dec(i[0]) for k,i in parsed.items() }
+        print( parsed2 )
+        print( *parsed2 )
+        firma = DaneFirmy( **parsed2 )
+        session.add( firma )
+        session.flush()
+        print( firma )
+
+        data = b''
+        for firma in session.query(DaneFirmy):
+            data += bytes( str(firma)+'<br>', sys.getdefaultencoding() )
+
+        self.wfile.write(data)
+
+
         #self.path = pathExtract(self.path)
         #if self.path in (''):
         #    self.send_response(200, 'OK')

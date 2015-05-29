@@ -56,39 +56,39 @@ class SerwisBazodanowy:
             return zadanie
 
     def UsunZadanie(self, id_zadania):
-        print('Tutaj bedzie usuwanie')        
-    
+        print('Tutaj bedzie usuwanie')
+
 
 def Dodawanie_jakis_danych():
         firma = DaneFirmy( nazwa="Monsters Inc.", adres="USA" )
-        
+
         session.add( firma )
         session.flush()
-        
+
         zadanie = Zadanie( data_przyjecia=now, id_firmy=firma.id, data_obliczenia=now )
         session.add( zadanie )
         session.flush()
-        
+
         nowa_maszyna = Maszyna(opis = "Nowa maszyna")
-        
+
         session.add( nowa_maszyna )
         session.flush()
-        
+
         nowa_operacja = Operacja(id_zadania = zadanie.id)
         session.add( nowa_operacja)
         session.flush()
-        
+
         nowe_powiazanie = PowiazanieOperacjiZMaszyna(id_operacje = nowa_operacja.id, id_maszyna = nowa_maszyna.id, koszt = 5)
         session.add(nowe_powiazanie)
         session.flush()
-        
+
         nowe_permutacje = PermutacjaOperacji(id_operacja = nowa_operacja.id, kolejnosc = 1)
         session.add(nowe_permutacje)
         session.flush()
         session.commit()
 if __name__ == "__main__":
-    Doawanie_jakis_danych()
+    Dodawanie_jakis_danych()
     serwis = SerwisBazodanowy()
     #serwis.DodajZadanie()
     serwis.WyswietlZawartoscWszystkichTabel()
-        
+
