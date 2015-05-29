@@ -13,7 +13,7 @@ Base.metadata.bind = mapper.engine
 Base.metadata.create_all()
 now = dt.datetime.now()
 
-PORT = 8080
+PORT = 8088
 
 def pathExtract(path):
     """ Extracts path to file from HTTP request path """
