@@ -17,7 +17,7 @@ class DaneFirmy(Base):
         adres = Column(Text)
         zadania = relationship("Zadanie")
         def __repr__(self):
-            return "%i: %40s, %40s" %( self.id, self.nazwa, self.adres )
+            return "%i: %30s, %30s" %( self.id, self.nazwa, self.adres )
 
 class Zadanie(Base):
         __tablename__ = 'zadania'
