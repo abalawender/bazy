@@ -9,9 +9,13 @@
     </head>
     <body>
         <form method="POST">
-            <input type="text" name="nazwa" />
-            <input type="text" name="adres" />
-            <input type="submit" />
+            <script>
+                var columns = $columns$;
+                for (c in columns)
+                    document.write( '<input type="text" name="'
+                            + columns[c] + '" />' );
+            </script>
+            <input type="submit" style="border: 2px solid rgba(0,0,0,0.5); border-radius:5px;"/>
         </form>
         <hr />
         <script>
@@ -31,7 +35,14 @@ $.ajax({
 
         <div style="width:600px; border: 2px solid #8AC007; border-radius:25px; padding: 20px;">
         <table id="dynatable">
-            <thead>$thead$</thead>
+            <thead>
+            </thead>
+            <script>
+                var columns = $columns$;
+                var text = "";
+                for (c in columns) text += "<th>"+columns[c]+"</th>";
+                document.getElementById("dynatable").tHead.innerHTML = text;
+            </script>
             <tbody><!-- dynatable goes here --></tbody>
         </table>
         </div>
