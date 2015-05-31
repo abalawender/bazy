@@ -8,7 +8,7 @@ engine = sqlalchemy.create_engine("postgresql://postgres:postgres@localhost/test
 import sqlalchemy.ext.declarative
 Base =  sqlalchemy.ext.declarative.declarative_base()
 
-from sqlalchemy import Column, Integer, String, Date, Text
+from sqlalchemy import Column, Integer, String, Date, Text, DateTime
 
 class DaneFirmy(Base):
         __tablename__ = 'dane_firmy'
@@ -22,9 +22,9 @@ class DaneFirmy(Base):
 class Zadanie(Base):
         __tablename__ = 'zadania'
         id = Column(Integer, primary_key=True)
-        data_przyjecia = Column(Date)
+        data_przyjecia = Column(DateTime)
         id_firmy = Column(Integer, ForeignKey('dane_firmy.id'))
-        data_obliczenia = Column(Date)
+        data_obliczenia = Column(DateTime)
         operacje = relationship("Operacja")
         def __repr__(self):
             return "%i: %s, %4i, %s" % (self.id, self.data_przyjecia.ctime(), self.id_firmy, self.data_obliczenia.ctime() )
