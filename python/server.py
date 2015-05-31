@@ -41,10 +41,9 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
             if mapReq in self.valid:
                 self.send_response(200)
                 self.end_headers()
-                cols = eval(mapReq).__table__.columns.keys()
-                thead = "<th>" + "</th><th>".join(cols) + "</th>"
+                cols = json.dumps( eval(mapReq).__table__.columns.keys(), 'utf-8' )
                 with open('show.html', 'r') as fileHandle:
-                    self.wfile.write( bytes( fileHandle.read().replace("$name$", mapReq ).replace("$thead$", thead ), 'utf-8' ) )
+                    self.wfile.write( bytes( fileHandle.read().replace("$name$", mapReq ).replace("$columns$", cols ), 'utf-8' ) )
             else:
                 self.send_response(404, 'Not Found')
                 self.end_headers()
@@ -56,10 +55,24 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
                 self.send_header("Content-type", "application/json")
                 self.end_headers()
                 query = session.query( eval(mapReq) )
-                data = [ { c.name: str( getattr(item, c.name) ) for c in item.__table__.columns} for item in query ]
+                data = [ { c.name: str( getattr(item, c.name) )
+                    for c in item.__table__.columns} for item in query ]
                 self.wfile.write( bytes( json.dumps(data, indent=4), 'utf-8' ) )
             else:
                 self.send_response(404, 'Not Found')
+                self.end_headers()
+        elif 'exec' in self.path:
+            execReq = self.path.split('/')[-1]+".py"
+            print( 'somebody here wants some execution' )
+            env = { 'retVal' : None }
+            if os.path.isfile( execReq ):
+                self.send_response(200)
+                self.end_headers()
+                with open( execReq ) as f:
+                    exec( compile(f.read(), execReq, 'exec' ), env )
+                self.wfile.write( bytes(env['retVal'], 'utf-8' ) )
+            else:
+                self.send_response(418, "Sorry, I'm just a teapot")
                 self.end_headers()
         elif os.path.isfile(self.path):
             self.send_response(200)
@@ -76,34 +89,33 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
         self.path = pathExtract(self.path)
 
         length = int(self.headers['content-length'])
-        if( length ):
+        mapReq = self.path.split('/')[-1]
+        if length and mapReq in self.valid:
+            print( 'somebody here wants to upload stuff' )
             data = self.rfile.read(length)
             print("request came with ", length, " : ", data)
+
             parsed = urllib.parse.parse_qs(data)
             dec = lambda x: x.decode( encoding='utf-8', errors='replace' )
             parsed2 = { dec(k):dec(i[0]) for k,i in parsed.items() }
+
             print( parsed2 )
             print( *parsed2 )
-            firma = DaneFirmy( **parsed2 )
-            session.add( firma )
-            session.flush()
-            print( firma )
+            record = eval(mapReq)( **parsed2 )
+            session.add( record )
+            try:
+                session.flush()
+                self.send_response(200)
+                print( record )
+            except:
+                print("B-Baka!")
+                session.rollback()
+                self.send_response(418, "Sorry, I'm just a teapot")
 
-        if self.path in (''):
-            self.send_response(200, 'OK')
             self.end_headers()
-            self.wfile.write(b'INDEX')
-            #with open('report.html', 'rb') as fileHandle:
-            #    self.wfile.write(fileHandle.read())
-            #length = int(self.headers['content-length'])
-            #data = self.rfile.read(length)
-        elif os.path.isfile(self.path):
-            self.send_response(200, 'OK')
-            self.end_headers()
-            with open(os.getcwd() + os.sep + self.path, 'rb') as fileHandle:
-                self.wfile.write(fileHandle.read())
+
         else:
-            self.send_response(404, 'Not Found')
+            self.send_response(418, "I'm just a teapot")
             self.end_headers()
 
     def log_message(self, frmt, *args):
