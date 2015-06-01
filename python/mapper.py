@@ -2,8 +2,8 @@ import sqlalchemy
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-#engine = sqlalchemy.create_engine("postgresql://postgres:postgres@localhost/test", echo=not True)
-engine = sqlalchemy.create_engine("postgresql://mypguser:bXlwZ3VzZXJwYXN@localhost:5466/test", echo=not True)
+engine = sqlalchemy.create_engine("postgresql://postgres:postgres@localhost/test", echo=not True)
+#engine = sqlalchemy.create_engine("postgresql://mypguser:bXlwZ3VzZXJwYXN@localhost:5466/test", echo=not True)
 #bXlwZ3VzZXJwYXNz
 
 import sqlalchemy.ext.declarative
@@ -40,7 +40,7 @@ class Maszyna(Base):
 class Operacja(Base):
         __tablename__ = 'operacje'
         id = Column(Integer, primary_key=True)
-        id_zadania=Column(Integer)
+        id_zadania=Column(Integer, ForeignKey('zadania.id'))
         def __repr__(self):
                 return "Id: %i, zadanie: %i" % (self.id, self.id_zadania)
 
