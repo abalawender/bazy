@@ -23,6 +23,8 @@ session = test.session
 now = dt.datetime.now()
 
 PORT = 8088
+if len(sys.argv) == 2:
+    PORT = int( sys.argv[1] )
 sessionDict = {} # dictionary mapping session id's to session objects
 
 class SessionElement(object):
