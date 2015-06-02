@@ -61,6 +61,12 @@ class SerwisBazodanowy:
     def PobierzFirme(self, idFirmy):
         return session.query(DaneFirmy).filter(DaneFirmy.id==idFirmy)[0]
 
+    def PobierzZadaniaFirmy(self, idFirmy):
+        return session.query(Zadanie).filter(Zadanie.id_firmy==idFirmy)
+
+    def PobierzZadanieZOperacjami(self, idZadania):
+        return session.query(Zadanie).filter(Zadanie.id == idZadania)[0]
+
     def UsunZadanie(self, id_zadania):
         print('Tutaj bedzie usuwanie')
 

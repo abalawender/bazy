@@ -13,4 +13,4 @@ def Naglowek():
                 """
 
 def Stopka():
-    return "</table> </body>"
+    return "</body> </html>"

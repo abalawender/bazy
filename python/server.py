@@ -116,7 +116,7 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         """ Handle HTTP POST Request"""
         print( "do_POST: ", self.path )
-        self.path = pathExtract(self.path)
+        self.path = pathExtract(self.path)[0]
 
         length = int(self.headers['content-length'])
         mapReq = self.path.split('/')[-1]
