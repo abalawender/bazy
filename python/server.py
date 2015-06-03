@@ -135,8 +135,14 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
 
             print( parsed2 )
             print( *parsed2 )
-            record = eval(mapReq)( **parsed2 )
-            session.add( record )
+
+            if mapReq in ("DodajZadanie"):
+                import test
+                test.SerwisBazodanowy.DodajZadanie( **parsed2 )
+            else:
+                record = eval(mapReq)( **parsed2 )
+                session.add( record )
+
             try:
                 session.flush()
                 self.send_response(200)

@@ -13,7 +13,8 @@ except AttributeError:
 
 if 'id' in parameters:
     zadanieId = parameters['id']
-    retVal += "<table style='position:absolute;top:100px;'>"
+    retVal += "<div style='position:absolute;top:100px;'>"
+    retVal += "<table>"
     zadanie = serwis.PobierzZadanieZOperacjami(zadanieId)
     nr_zadania = 1
     for operacja in zadanie.operacje:
@@ -35,21 +36,6 @@ if 'id' in parameters:
         czasRozpoczecia = operacja.id*5 # liczba z dupy
         listaZadan.append((operacja.id, kolejnosc, koszt, maszyna, czasRozpoczecia))
 
-    import json
-    dump = json.dumps( { "data" : [ {
-                "id": t[0]+1,
-		"start_date": "2013-04-01 00:00:00",
-		"duration": t[2],
-		"text": "#%i" % t[0],
-		"progress": 0,
-		"sortorder": 0,
-		"parent": 0,
-		"open": True
-        } for t in listaZadan] }, indent=4 )
-
-    print( dump )
-
-
     # print (permutacja)
         # koszt = operacja.koszt
         # maszyny = operacja.powiazanieZMaszyna.
@@ -58,5 +44,13 @@ if 'id' in parameters:
     #     retVal += "<td><a href=firmy?id=" + str(firma.id) + ">" + firma.nazwa + "</a></td>"
     #     retVal += "</tr>"
     retVal += "</table>"
+    retVal += """
+    <form action="DodajZadanie" method="POST">
+    <input type="text" name="id_firmy" value="%s" >
+    <input type="text" name="operacje_slownik" >
+    <input type="submit" value="Zapisz">
+    </form>
+    """ %  idFirmy
+    retVal += "</div>"
 
 retVal += uniwersalne.Stopka()
