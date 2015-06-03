@@ -11,13 +11,13 @@ if 'id' in parameters:
     zadanieId = parameters['id']
     zadanie = serwis.PobierzZadanieZOperacjami(zadanieId)
     nr_zadania = 1
-    permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)
+    permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)[0]
     if(len(permutacja) == 0):
         serwis.PosortujZadanie(zadanieId)
-        permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)
+        permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)[0]
 
     listaZadan = []
-    for operacja in permutacja[0]:
+    for operacja in permutacja:
         kolejnosc = operacja.kolejnosc
         koszt = operacja.Powiazanie.koszt
         maszyna = operacja.Powiazanie.id_maszyna
