@@ -6,6 +6,8 @@ from sqlalchemy.orm import sessionmaker
 Session = sessionmaker(bind=mapper.engine)
 session = Session()
 
+
+from sqlalchemy.orm import aliased
 Base.metadata.bind = mapper.engine
 Base.metadata.create_all()
 import datetime
@@ -66,6 +68,30 @@ class SerwisBazodanowy:
 
     def PobierzZadanieZOperacjami(self, idZadania):
         return session.query(Zadanie).filter(Zadanie.id == idZadania)[0]
+
+    def PobierzPosortowaneZadanie(self, idZadania):
+        permutacje = []
+        zadanie = self.PobierzZadanieZOperacjami(idZadania)
+        for operacja in zadanie.operacje:
+            for powiazanieZMaszyna in operacja.powiazanieZMaszyna:
+                    permutacje.append(powiazanieZMaszyna.permutacja)
+
+        return permutacje
+
+    def PosortujZadanie(self, idZadania):
+        powiazania = []
+        zadanie = self.PobierzZadanieZOperacjami(idZadania)
+        for operacja in zadanie.operacje:
+            for powiazanieZMaszyna in operacja.powiazanieZMaszyna:
+                 powiazania.append(powiazanieZMaszyna)
+
+        powiazania.sort(key=lambda powiazanie: powiazanie.koszt)
+        kolejnosc = 1
+        for powiazanie in powiazania:
+           permutacja = PermutacjaOperacji(id_maszyny_operacje = powiazanie.id, kolejnosc = kolejnosc)
+           session.add(permutacja)
+           session.flush()
+        session.commit()
 
     def UsunZadanie(self, id_zadania):
         print('Tutaj bedzie usuwanie')

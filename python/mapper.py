@@ -52,13 +52,14 @@ class PowiazanieOperacjiZMaszyna(Base):
         id_operacje = Column(Integer, ForeignKey('operacje.id'))
         id_maszyna = Column(Integer, ForeignKey('maszyny.id'))
         koszt = Column(Integer)
+        permutacja = relationship("PermutacjaOperacji", backref = 'Powiazanie')
         def __repr__(self):
                 return "Id: %i, maszyna: %i, operacja: %i " % (self.id, self.id_maszyna, self.id_operacje)
 
 class PermutacjaOperacji(Base):
         __tablename__ = 'permutacja_operacje'
         id = Column(Integer, primary_key=True)
-        id_operacja = Column(Integer)
+        id_maszyny_operacje = Column(Integer, ForeignKey('maszyny_operacje.id'))
         kolejnosc = Column(Integer)
         def __repr__(self):
                 return "Id: %i, operacja: %i, optymalna pozycja: %i" % (self.id, self.id_operacja, 

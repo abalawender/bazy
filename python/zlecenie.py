@@ -21,6 +21,22 @@ if 'id' in parameters:
         for powiazanieZMaszyna in operacja.powiazanieZMaszyna:
             retVal += "<tr><td></td><td> Operacja: koszt "+ str(powiazanieZMaszyna.koszt) + ", maszyna " \
             + str(powiazanieZMaszyna.maszyny.opis) + "<td></tr>"
+
+    permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)
+    if(len(permutacja) > 0):
+        serwis.PosortujZadanie(zadanieId)
+        permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)
+
+    listaZadan = []
+    for operacja in permutacja:
+        kolejnosc = operacja.kolejnosc
+        koszt = operacja.Powiazanie.koszt
+        maszyna = operacja.Powiazanie.id_maszyna
+        czasZakonczenia = 5 # liczba z dupy
+        listaZadan.append((kolejnosc, koszt, maszyna, czasZakonczenia))
+
+
+    # print (permutacja)
         # koszt = operacja.koszt
         # maszyny = operacja.powiazanieZMaszyna.
     # for firma in serwis.PobierzWszystkieFirmy():
