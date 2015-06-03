@@ -22,6 +22,8 @@ if 'id' in parameters:
             retVal += "<tr><td></td><td> Operacja: koszt "+ str(powiazanieZMaszyna.koszt) + ", maszyna " \
             + str(powiazanieZMaszyna.maszyny.opis) + "<td></tr>"
 
+
+
     permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)[0]
     if(len(permutacja) == 0):
         serwis.PosortujZadanie(zadanieId)
@@ -57,6 +59,10 @@ if 'id' in parameters:
     #     retVal += "<tr>"
     #     retVal += "<td><a href=firmy?id=" + str(firma.id) + ">" + firma.nazwa + "</a></td>"
     #     retVal += "</tr>"
+
+    retVal += "<tr><td><a href=gantt?id=" + str(zadanieId) + ">Wykres gantta</a></td></tr>"
     retVal += "</table>"
+
+
 
 retVal += uniwersalne.Stopka()
