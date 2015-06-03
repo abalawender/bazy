@@ -18,7 +18,7 @@ def Zalogowany( firma ):
 
 def Menu():
     return "<div style='position:absolute;top:20px;left:20px;border: 3px dotted blue; border-radius: 15px;padding:15; width:400px; background-color:rgba(10,100,250,.1); text-align:center;'>\n" + \
-    "<a href=firmy>Firmy</a> <a href=zlecenia>Zlecenia</a> <a href=maszyny>Maszyny</a>\n" + \
+    "<a href=/exec/firmy>Firmy</a> <a href=/exec/zlecenia>Zlecenia</a> <a href=/exec/maszyny>Maszyny</a>\n" + \
     "</div>\n"
 
 def Stopka():
