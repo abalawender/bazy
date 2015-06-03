@@ -13,7 +13,7 @@ except AttributeError:
     retVal += "Nie jesteś zalogowany! Wybierz użytkownika:<br /><br /><select onChange='window.location.href=this.value' style='width:80%; border-radius: 5px; border: 1px solid black; background-color:rgba(250,250,250,.2); padding: 5px;'>\n"
     retVal += "<option disabled selected> -- wybierz firmę -- </option>\n"
     for firma in serwis.PobierzWszystkieFirmy():
-        retVal += "\t<option value='firmy?id=" + str(firma.id) + "'>" + firma.nazwa + "</option>\n"
+        retVal += "\t<option value='/exec/firmy?id=" + str(firma.id) + "'>" + firma.nazwa + "</option>\n"
     retVal += "</select>"
     retVal += "</div>"
 

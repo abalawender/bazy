@@ -23,7 +23,7 @@ if 'id' in parameters:
             + str(powiazanieZMaszyna.maszyny.opis) + "<td></tr>"
 
     permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)
-    if(len(permutacja) > 0):
+    if(len(permutacja) == 0):
         serwis.PosortujZadanie(zadanieId)
         permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)
 

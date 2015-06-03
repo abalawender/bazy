@@ -63,6 +63,8 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
         parameters = getParametersExtraxt(requestPath)
         self.path = requestPath[0]
 
+        if self.path in (''): self.path = "/exec/firmy"
+
         if os.path.isfile(self.path):
             self.send_response(200)
             self.end_headers()

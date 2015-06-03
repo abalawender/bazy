@@ -12,7 +12,7 @@ if 'id' in parameters:
     zadanie = serwis.PobierzZadanieZOperacjami(zadanieId)
     nr_zadania = 1
     permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)
-    if(len(permutacja) > 0):
+    if(len(permutacja) == 0):
         serwis.PosortujZadanie(zadanieId)
         permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)
 

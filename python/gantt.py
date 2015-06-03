@@ -65,7 +65,10 @@ try:
             };
                     gantt.config.xml_date = "%Y-%m-%d %H:%i:%s";
                     gantt.init("gantt_here");
-                    gantt.load("/exec/data", "json");
+                    var query = window.location.search.replace("?","");
+                    if( query.length ) query = "?"+query;
+                    console.log( query );
+                    gantt.load("/exec/data"+query, "json");
                     //gantt.load("/data.json", "json");
             </script>
     </body>
