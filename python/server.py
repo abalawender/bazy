@@ -63,7 +63,12 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
         parameters = getParametersExtraxt(requestPath)
         self.path = requestPath[0]
 
-        if 'show' in self.path:
+        if os.path.isfile(self.path):
+            self.send_response(200)
+            self.end_headers()
+            with open(os.getcwd() + os.sep + self.path, 'rb') as fileHandle:
+                self.wfile.write(fileHandle.read())
+        elif 'show' in self.path:
             mapReq = self.path.split('/')[-1]
             if mapReq in self.valid:
                 self.send_response(200)
@@ -106,11 +111,6 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
             else:
                 self.send_response(418, "Sorry, I'm just a teapot")
                 self.end_headers()
-        elif os.path.isfile(self.path):
-            self.send_response(200)
-            self.end_headers()
-            with open(os.getcwd() + os.sep + self.path, 'rb') as fileHandle:
-                self.wfile.write(fileHandle.read())
         else:
             self.send_response(404, 'Not Found')
             self.end_headers()
