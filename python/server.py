@@ -124,7 +124,7 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
 
         length = int(self.headers['content-length'])
         mapReq = self.path.split('/')[-1]
-        if length and mapReq in self.valid:
+        if length:
             print( 'somebody here wants to upload stuff' )
             data = self.rfile.read(length)
             print("request came with ", length, " : ", data)
@@ -138,8 +138,9 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
 
             if mapReq in ("DodajZadanie"):
                 import test
-                test.SerwisBazodanowy.DodajZadanie( **parsed2 )
-            else:
+                serwis = test.SerwisBazodanowy()
+                serwis.DodajZadanie( parsed2['id_firmy'], eval( parsed2['operacje_slownik'] ) )
+            elif mapReq in self.valid:
                 record = eval(mapReq)( **parsed2 )
                 session.add( record )
 

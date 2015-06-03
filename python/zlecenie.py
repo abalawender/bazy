@@ -45,8 +45,8 @@ if 'id' in parameters:
     #     retVal += "</tr>"
     retVal += "</table>"
     retVal += """
-    <form action="DodajZadanie" method="POST">
-    <input type="text" name="id_firmy" value="%s" >
+    <form action="/DodajZadanie" method="POST">
+    <input type="text" name="id_firmy" value="%s" hidden="true">
     <input type="text" name="operacje_slownik" >
     <input type="submit" value="Zapisz">
     </form>
