@@ -22,13 +22,13 @@ if 'id' in parameters:
             retVal += "<tr><td></td><td> Operacja: koszt "+ str(powiazanieZMaszyna.koszt) + ", maszyna " \
             + str(powiazanieZMaszyna.maszyny.opis) + "<td></tr>"
 
-    permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)
-    if(len(permutacja) > 0):
+    permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)[0]
+    if(len(permutacja) == 0):
         serwis.PosortujZadanie(zadanieId)
-        permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)
+        permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)[0]
 
     listaZadan = []
-    for operacja in permutacja[0]:
+    for operacja in permutacja:
         kolejnosc = operacja.kolejnosc
         koszt = operacja.Powiazanie.koszt
         maszyna = operacja.Powiazanie.id_maszyna
