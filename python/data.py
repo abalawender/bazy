@@ -8,21 +8,19 @@ except AttributeError:
     pass
 
 if 'id' in parameters:
-    zadanieId = parameters['id']
-    zadanie = serwis.PobierzZadanieZOperacjami(zadanieId)
-    nr_zadania = 1
-    permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)[0]
-    if(len(permutacja) == 0):
-        serwis.PosortujZadanie(zadanieId)
-        permutacja = serwis.PobierzPosortowaneZadanie(zadanieId)[0]
+    zlecenieId = parameters['id']
+    permutacja = serwis.PobierzPermutacje(zlecenieId)
+    if(permutacja.count() <= 0):
+        serwis.PosortujZlecenie(zlecenieId)
+        permutacja = serwis.PobierzPermutacje(zlecenieId)
 
     listaZadan = []
-    for operacja in permutacja:
-        kolejnosc = operacja.kolejnosc
-        koszt = operacja.Powiazanie.koszt
-        maszyna = operacja.Powiazanie.id_maszyna
-        czasRozpoczecia = operacja.id*5 # liczba z dupy
-        listaZadan.append((operacja.id, kolejnosc, koszt, maszyna, czasRozpoczecia))
+    for perm in permutacja:
+        kolejnosc = perm.kolejnosc
+        koszt = perm.operacja.koszt
+        maszyna = perm.operacja.id_maszyna
+        czasRozpoczecia = perm.id*5 # liczba z dupy
+        listaZadan.append((perm.id, kolejnosc, koszt, 'Kutas', czasRozpoczecia))
 
     retVal = json.dumps({"data": [{
                 "id": t[0]+1,

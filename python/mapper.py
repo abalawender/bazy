@@ -3,7 +3,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 import sqlalchemy.ext.declarative
 from sqlalchemy import Column, Integer, String, Date, Text, DateTime
-engine = sqlalchemy.create_engine("postgresql://postgres:postgres@localhost/test2", echo=not True)
+engine = sqlalchemy.create_engine("postgresql://postgres:postgres@localhost/test", echo=not True)
 # engine = sqlalchemy.create_engine("postgresql://mypguser:bXlwZ3VzZXJwYXN@localhost:5466/test", echo=not True)
 Base = sqlalchemy.ext.declarative.declarative_base()
 
@@ -29,8 +29,8 @@ class Zlecenie(Base):
         zadania = relationship("Zadanie")
 
         def __repr__(self):
-            return "%i: %s, %4i, %s" % \
-                   (self.id, self.data_przyjecia.ctime(), self.id_firmy, self.data_obliczenia.ctime())
+            return "%i: %s, %4i" % \
+                   (self.id, self.data_przyjecia.ctime(), self.id_firmy)
 
 
 class Maszyna(Base):
@@ -51,7 +51,7 @@ class Zadanie(Base):
         operacje = relationship("Operacja")
 
         def __repr__(self):
-                return "Id: %i, zadanie: %i" % (self.id, self.id_zadania)
+                return "Id: %i, zlecenie: %i" % (self.id, self.id_zlecenia)
 
 
 class Operacja(Base):
@@ -61,6 +61,7 @@ class Operacja(Base):
         id_maszyna = Column(Integer, ForeignKey('maszyny.id'), nullable=False)
         koszt = Column(Integer, nullable=False)
         permutacja = relationship("PermutacjaOperacji", backref='operacja')
+
 
         def __repr__(self):
                 return "Id: %i, maszyna: %i, operacja: %i " % (self.id, self.id_maszyna, self.id_zadanie)
