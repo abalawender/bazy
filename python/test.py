@@ -1,20 +1,17 @@
-#engine = sqlalchemy.create_engine('sqlite:///:memory:', echo=True)
-
 import mapper
+import contextlib
 from mapper import *
 from sqlalchemy.orm import sessionmaker
+import datetime
+
 Session = sessionmaker(bind=mapper.engine)
 session = Session()
-
-
-from sqlalchemy.orm import aliased
 Base.metadata.bind = mapper.engine
 Base.metadata.create_all()
-import datetime
 now = datetime.datetime.now()
 
 class SerwisBazodanowy:
-    def WyswietlZawartoscWszystkichTabel(self):
+    def wyswietlZawartoscWszystkichTabel(self):
             print( "Tabele: ", mapper.engine.table_names() )
 
             print( "Dane o firmach:")
@@ -22,7 +19,7 @@ class SerwisBazodanowy:
                 print( firma )
 
             print( "Zadania:" )
-            for zadanie in session.query(Zadanie):
+            for zadanie in session.query(Zlecenie):
                 print( zadanie )
 
             print( "Maszyny:" )
@@ -30,32 +27,34 @@ class SerwisBazodanowy:
                 print( maszyna )
 
             print( "Operacje: ")
-            for operacja in session.query(Operacja):
+            for operacja in session.query(Zadanie):
                 print( operacja )
 
             print( "Powiazania Operacji z Maszynami:" )
-            for powiazanie in session.query( PowiazanieOperacjiZMaszyna ):
+            for powiazanie in session.query( Operacja ):
                 print( powiazanie )
 
             print ( "Zapisane permutacje:" )
             for permutacja in session.query( PermutacjaOperacji ):
                 print (permutacja)
 
-    def DodajZadanie(self, id_firmy,operacje_slownik):
-            zadanie = Zadanie(data_przyjecia = now, id_firmy=id_firmy, data_obliczenia=now)
-            session.add(zadanie)
+    def DodajZlecenie(self, id_firmy, zadania_slownik):
+            zlecenie = Zlecenie(data_przyjecia = now, id_firmy=id_firmy, data_obliczenia=None)
+            session.add(zlecenie)
             session.flush()
-            for nowa_operacja in operacje_slownik:
-                 operacja = Operacja(id_zadania = zadanie.id)
-                 session.add(operacja)
+            for nowe_zadanie in zadania_slownik:
+                 zadanie = Zadanie(id_zlecenia = zlecenie.id)
+                 session.add(zadanie)
                  session.flush()
-                 for operacja_konkretna_maszyna in nowa_operacja:
-                        polaczenieOperacjaMaszyna = PowiazanieOperacjiZMaszyna(id_operacje=operacja.id, id_maszyna = operacja_konkretna_maszyna[0], koszt=operacja_konkretna_maszyna[1])
+                 for operacja in nowe_zadanie:
+                        polaczenieOperacjaMaszyna = Operacja(id_zadanie=zadanie.id,
+                                                             id_maszyna=operacja[0],
+                                                             koszt=operacja[1])
                         session.add(polaczenieOperacjaMaszyna)
                         session.flush()
 
             session.commit()
-            return zadanie
+            return zlecenie
 
     def PobierzWszystkieFirmy(self):
         return session.query (DaneFirmy)
@@ -64,31 +63,39 @@ class SerwisBazodanowy:
         return session.query(DaneFirmy).filter(DaneFirmy.id==idFirmy)[0]
 
     def PobierzZadaniaFirmy(self, idFirmy):
-        return session.query(Zadanie).filter(Zadanie.id_firmy==idFirmy)
+        return session.query(Zlecenie).filter(Zlecenie.id_firmy==idFirmy)
 
-    def PobierzZadanieZOperacjami(self, idZadania):
-        return session.query(Zadanie).filter(Zadanie.id == idZadania)[0]
+    def dodajFirme(self, nazwa, adres = None):
+        firma = DaneFirmy(nazwa=nazwa, adres=adres)
+        session.add(firma)
+        session.flush()
+        return firma
 
-    def PobierzPosortowaneZadanie(self, idZadania):
-        permutacje = []
-        zadanie = self.PobierzZadanieZOperacjami(idZadania)
-        for operacja in zadanie.operacje:
-            for powiazanieZMaszyna in operacja.powiazanieZMaszyna:
-                    permutacje.append(powiazanieZMaszyna.permutacja)
+    def PobierzZlecenie(self, idZadania):
+        return session.query(Zlecenie).filter(Zlecenie.id == idZadania)[0]
 
-        return permutacje
+    def PobierzPermutacje(self, idZlecenia):
+        return session.query(PermutacjaOperacji).join(Operacja).join(Zadanie)\
+            .filter(Zadanie.id_zlecenia == idZlecenia).order_by(PermutacjaOperacji.kolejnosc)
 
-    def PosortujZadanie(self, idZadania):
-        powiazania = []
-        zadanie = self.PobierzZadanieZOperacjami(idZadania)
-        for operacja in zadanie.operacje:
-            for powiazanieZMaszyna in operacja.powiazanieZMaszyna:
-                 powiazania.append(powiazanieZMaszyna)
+    def CzyZleceniePosortowane(self, idZlecenia):
+        kwerenda = session.query(PermutacjaOperacji).join(Operacja).join(Zadanie)\
+            .filter(Zadanie.id_zlecenia == idZlecenia)
+        liczba_permutacji = kwerenda.count()
+        return liczba_permutacji <= 0
 
-        powiazania.sort(key=lambda powiazanie: powiazanie.koszt)
+    def PosortujZlecenie(self, idZlecenia):
+        wszystkieOperacje = []
+        zlecenie = self.PobierzZlecenie(idZlecenia)
+        for zadanie in zlecenie.zadania:
+            for operacja in zadanie.operacje:
+                 wszystkieOperacje.append(operacja)
+
+        wszystkieOperacje.sort(key=lambda oper: oper.koszt)
         kolejnosc = 1
-        for powiazanie in powiazania:
-           permutacja = PermutacjaOperacji(id_maszyny_operacje = powiazanie.id, kolejnosc = kolejnosc)
+        for operacja in wszystkieOperacje:
+           permutacja = PermutacjaOperacji(id_operacji=operacja.id, kolejnosc = kolejnosc)
+           kolejnosc += 1
            session.add(permutacja)
            session.flush()
         session.commit()
@@ -96,37 +103,61 @@ class SerwisBazodanowy:
     def UsunZadanie(self, id_zadania):
         print('Tutaj bedzie usuwanie')
 
-
-def Dodawanie_jakis_danych():
-        firma = DaneFirmy( nazwa="Monsters Inc.", adres="USA" )
-
-        session.add( firma )
+    def DodajMaszyne(self, nazwa, opis = None):
+        maszyna = Maszyna(nazwa=nazwa, opis=opis)
+        session.add(maszyna)
         session.flush()
+        return maszyna
 
-        zadanie = Zadanie( data_przyjecia=now, id_firmy=firma.id, data_obliczenia=now )
-        session.add( zadanie )
-        session.flush()
 
-        nowa_maszyna = Maszyna(opis = "Nowa maszyna")
-
-        session.add( nowa_maszyna )
-        session.flush()
-
-        nowa_operacja = Operacja(id_zadania = zadanie.id)
-        session.add( nowa_operacja)
-        session.flush()
-
-        nowe_powiazanie = PowiazanieOperacjiZMaszyna(id_operacje = nowa_operacja.id, id_maszyna = nowa_maszyna.id, koszt = 5)
-        session.add(nowe_powiazanie)
-        session.flush()
-
-        nowe_permutacje = PermutacjaOperacji(id_operacja = nowa_operacja.id, kolejnosc = 1)
-        session.add(nowe_permutacje)
-        session.flush()
-        session.commit()
 if __name__ == "__main__":
-    Dodawanie_jakis_danych()
+    with contextlib.closing(engine.connect()) as con:
+        trans = con.begin()
+        querry_rezult = con.execute('select \'drop table if exists \"\' || tablename '
+                                    '|| \'\" cascade;\' from pg_tables '
+                                    'where schemaname = \'public\';')
+        for deleteQuerry in querry_rezult:
+            con.execute(deleteQuerry[0])
+        trans.commit()
+
+    print('Tworze schemat bazy')
+    Base.metadata.create_all()
+
     serwis = SerwisBazodanowy()
-    #serwis.DodajZadanie()
-    serwis.WyswietlZawartoscWszystkichTabel()
+    serwis.wyswietlZawartoscWszystkichTabel()
+
+    print('W bazie akualnie znajduje sie:')
+    print('Zaczynam tworzenie przypadkowych danych:')
+
+    nazwyFirm = ['ALIOR BANK', 'ASSECO POLAND', 'BOGDANKA',
+            'BZ WBK', 'CYFROWY POLSAT', 'ENEA',
+            'ENERGA', 'EUROCASH', 'KGHM POLSKA MIEDZ SA',
+            'LPP', 'MBANK', 'ORANGE POLSKA', 'PEKAO',
+            'PGE', 'PGNIG', 'PKN ORLEN', 'PKO BP',
+            'PZU', 'SYNTHOS', 'TAURON POLSKA ENERGIA']
+
+    firmy = []
+    for nazwa in nazwyFirm:
+        firmy.append(serwis.dodajFirme(nazwa))
+
+    maszyny = []
+    nazywyMaszyn = ['Frezarka nr 1',  'Frezarka nr 2', 'Frezarka nr 3', 'Tokarka',
+                    'Wtryskarka', 'Odkurzacz', 'Myjka' ]
+    for nazwaMaszyny in nazywyMaszyn:
+        maszyny.append(serwis.DodajMaszyne(nazwaMaszyny))
+
+    import random
+
+    for firma in firmy:
+        for nrOperacji in range(0, random.randint(0, 10)):
+            zlecenie = []
+            for nrZadania in range(0, random.randint(0, 10)):
+                zadania=[]
+                for nrOperacji in range(0, random.randint(0, 10)):
+                    nrMaszyny = random.randint(0, len(maszyny)-1)
+                    maszyna = maszyny[nrMaszyny]
+                    zadania.append((maszyna.id, random.randint(0, 100)))
+                zlecenie.append(zadania)
+            serwis.DodajZlecenie(firma.id, zlecenie)
+    serwis.wyswietlZawartoscWszystkichTabel()
 
