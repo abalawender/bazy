@@ -20,7 +20,7 @@ if 'id' in parameters:
         koszt = perm.operacja.koszt
         maszyna = perm.operacja.id_maszyna
         czasRozpoczecia = perm.id*5 # liczba z dupy
-        listaZadan.append((perm.id, kolejnosc, koszt, 'Kutas', czasRozpoczecia))
+        listaZadan.append((perm.id, kolejnosc, koszt, maszyna, czasRozpoczecia))
 
     retVal = json.dumps({"data": [{
                 "id": t[0]+1,
