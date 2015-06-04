@@ -18,9 +18,9 @@ if 'id' in parameters:
     zadanie = serwis.PobierzZadanieZOperacjami(zadanieId)
     nr_zadania = 1
     for operacja in zadanie.operacje:
-        retVal += "<tr><td> Zadanie: " + str(nr_zadania) + "</td><td></td></tr>"
+        retVal += "<tr><td> Zlecenie: " + str(nr_zadania) + "</td><td></td></tr>"
         for powiazanieZMaszyna in operacja.powiazanieZMaszyna:
-            retVal += "<tr><td></td><td> Operacja: koszt "+ str(powiazanieZMaszyna.koszt) + ", maszyna " \
+            retVal += "<tr><td></td><td> Zadanie: koszt "+ str(powiazanieZMaszyna.koszt) + ", maszyna " \
             + str(powiazanieZMaszyna.maszyny.opis) + "<td></tr>"
 
 

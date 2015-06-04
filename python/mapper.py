@@ -1,68 +1,77 @@
 import sqlalchemy
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
-
-engine = sqlalchemy.create_engine("postgresql://postgres:postgres@localhost/test", echo=not True)
-#engine = sqlalchemy.create_engine("postgresql://mypguser:bXlwZ3VzZXJwYXN@localhost:5466/test", echo=not True)
-#bXlwZ3VzZXJwYXNz
-
 import sqlalchemy.ext.declarative
-Base =  sqlalchemy.ext.declarative.declarative_base()
-
 from sqlalchemy import Column, Integer, String, Date, Text, DateTime
+engine = sqlalchemy.create_engine("postgresql://postgres:postgres@localhost/test2", echo=not True)
+# engine = sqlalchemy.create_engine("postgresql://mypguser:bXlwZ3VzZXJwYXN@localhost:5466/test", echo=not True)
+Base = sqlalchemy.ext.declarative.declarative_base()
+
 
 class DaneFirmy(Base):
         __tablename__ = 'dane_firmy'
         id = Column(Integer, primary_key=True)
-        nazwa = Column(Text)
+        nazwa = Column(Text, nullable=False)
         adres = Column(Text)
-        zadanie = relationship("Zadanie")
-        def __repr__(self):
-            return "%i: %30s, %30s" %( self.id, self.nazwa, self.adres )
+        zlecenia = relationship("Zlecenie")
 
-class Zadanie(Base):
-        __tablename__ = 'zadania'
-        id = Column(Integer, primary_key=True)
-        data_przyjecia = Column(DateTime)
-        id_firmy = Column(Integer, ForeignKey('dane_firmy.id'))
-        data_obliczenia = Column(DateTime)
-        operacje = relationship("Operacja")
         def __repr__(self):
-            return "%i: %s, %4i, %s" % (self.id, self.data_przyjecia.ctime(), self.id_firmy, self.data_obliczenia.ctime() )
+            return "%i: %30s, %30s" % (self.id, self.nazwa, self.adres)
+
+
+class Zlecenie(Base):
+        __tablename__ = 'zlecenia'
+        id = Column(Integer, primary_key=True)
+        data_przyjecia = Column(DateTime, nullable=False)
+        id_firmy = Column(Integer, ForeignKey('dane_firmy.id'), nullable=False)
+        data_obliczenia = Column(DateTime)
+        opis = Column(Text)
+        zadania = relationship("Zadanie")
+
+        def __repr__(self):
+            return "%i: %s, %4i, %s" % \
+                   (self.id, self.data_przyjecia.ctime(), self.id_firmy, self.data_obliczenia.ctime())
+
 
 class Maszyna(Base):
         __tablename__ = 'maszyny'
         id = Column(Integer, primary_key=True)
+        nazwa = Column(Text, nullable=False)
         opis = Column(Text)
-        operacje = relationship("PowiazanieOperacjiZMaszyna", backref='maszyny')
+        operacje = relationship("Operacja", backref='maszyny')
+
         def __repr__(self):
-                return "%i: %s" % (self.id, self.opis)
+                return "%i: %s" % (self.id, self.nazwa)
+
+
+class Zadanie(Base):
+        __tablename__ = 'zadania'
+        id = Column(Integer, primary_key=True)
+        id_zlecenia = Column(Integer, ForeignKey('zlecenia.id'), nullable=False)
+        operacje = relationship("Operacja")
+
+        def __repr__(self):
+                return "Id: %i, zadanie: %i" % (self.id, self.id_zadania)
+
 
 class Operacja(Base):
         __tablename__ = 'operacje'
         id = Column(Integer, primary_key=True)
-        id_zadania=Column(Integer, ForeignKey('zadania.id'))
-        powiazanieZMaszyna = relationship("PowiazanieOperacjiZMaszyna")
-        def __repr__(self):
-                return "Id: %i, zadanie: %i" % (self.id, self.id_zadania)
+        id_zadanie = Column(Integer, ForeignKey('zadania.id'), nullable=False)
+        id_maszyna = Column(Integer, ForeignKey('maszyny.id'), nullable=False)
+        koszt = Column(Integer, nullable=False)
+        permutacja = relationship("PermutacjaOperacji", backref='operacja')
 
-class PowiazanieOperacjiZMaszyna(Base):
-        __tablename__ = 'maszyny_operacje'
-        id = Column(Integer, primary_key=True)
-        id_operacje = Column(Integer, ForeignKey('operacje.id'))
-        id_maszyna = Column(Integer, ForeignKey('maszyny.id'))
-        koszt = Column(Integer)
-        permutacja = relationship("PermutacjaOperacji", backref = 'Powiazanie')
         def __repr__(self):
-                return "Id: %i, maszyna: %i, operacja: %i " % (self.id, self.id_maszyna, self.id_operacje)
+                return "Id: %i, maszyna: %i, operacja: %i " % (self.id, self.id_maszyna, self.id_zadanie)
+
 
 class PermutacjaOperacji(Base):
         __tablename__ = 'permutacja_operacje'
         id = Column(Integer, primary_key=True)
-        id_maszyny_operacje = Column(Integer, ForeignKey('maszyny_operacje.id'))
-        kolejnosc = Column(Integer)
+        id_operacji = Column(Integer, ForeignKey('operacje.id'), nullable=False)
+        kolejnosc = Column(Integer, nullable=False)
+
         def __repr__(self):
-                return "Id: %i, operacja: %i, optymalna pozycja: %i" % (self.id, self.id_operacja, 
-self.kolejnosc)
-
-
+                return "Id: %i, operacja: %i, optymalna pozycja: %i" % \
+                       (self.id, self.id_operacja, self.kolejnosc)

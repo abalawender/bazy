@@ -24,7 +24,7 @@ if 'id' in parameters:
         czasRozpoczecia = operacja.id*5 # liczba z dupy
         listaZadan.append((operacja.id, kolejnosc, koszt, maszyna, czasRozpoczecia))
 
-    retVal = json.dumps( { "data" : [ {
+    retVal = json.dumps({"data": [{
                 "id": t[0]+1,
 		"start_date": "2013-04-01 00:00:00",
 		"duration": t[2],
