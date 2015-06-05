@@ -140,6 +140,7 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
                 import test
                 serwis = test.SerwisBazodanowy()
                 serwis.DodajZlecenie( parsed2['id_firmy'], eval( parsed2['operacje_slownik'] ) )
+            elif mapReg in ("firmy")
             elif mapReq in self.valid:
                 record = eval(mapReq)( **parsed2 )
                 session.add( record )
