@@ -35,7 +35,7 @@ if 'id' in parameters and zalogowany:
     <p id="dupa"></p>
     <input type="text" value="%s" id="firma" hidden />
     <input type="text" value="koszt" id="koszt" onchange="verifyInt(this, 'koszt'); " />
-    <input type="text" value="zadanie" id="zadanie" onchange="verifyInt(this, 'zadanie');" />""" % idFirmy
+    <!--<input type="text" value="zadanie" id="zadanie" onchange="verifyInt(this, 'zadanie');" />-->""" % idFirmy
 
     retVal += "<select name='maszyna'>\n"
     for m in serwis.PobierzWszystkieMaszyny():
