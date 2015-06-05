@@ -139,19 +139,19 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
             if mapReq in ("DodajZlecenie"):
                 import test
                 serwis = test.SerwisBazodanowy()
-                serwis.DodajZlecenie( parsed2['id_firmy'], eval( parsed2['operacje_slownik'] ) )
+                serwis.DodajZlecenie( int(parsed2['id_firmy']), eval( parsed2['operacje_slownik'] ) )
+                self.send_response(200)
             elif mapReq in self.valid:
                 record = eval(mapReq)( **parsed2 )
                 session.add( record )
-
-            try:
-                session.flush()
-                self.send_response(200)
-                print( record )
-            except:
-                print("B-Baka!")
-                session.rollback()
-                self.send_response(418, "Sorry, I'm just a teapot")
+                try:
+                    session.flush()
+                    self.send_response(200)
+                    print( record )
+                except:
+                    print("B-Baka!")
+                    session.rollback()
+                    self.send_response(418, "Sorry, I'm just a teapot")
 
             self.end_headers()
 

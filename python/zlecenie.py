@@ -43,26 +43,40 @@ if 'id' in parameters and zalogowany:
     retVal += "</select>\n"
 
     retVal += """
-    <input type="button" onclick="f = this.form; if(verifyAll(f)) { arr.push([f.firma.value, f.koszt.value, f.zadanie.value, f.maszyna.value]); dupdate(); } else alert('niepoprawne dane!');" value="add" />
-    <input type="button" onclick="arr.splice( $('input[name=toRemove]:checked')[0].id.slice(8), 1); dupdate();" value="remove" />
+    <input type="button" onclick="f = this.form; if(verifyAll(f)) { arr.push([ parseInt(f.maszyna.value), parseInt(f.koszt.value)]); dupdate(); } else alert('niepoprawne dane!');" value="dodaj" />
+    <input type="button" onclick="arr.splice( $('input[name=toRemove]:checked')[0].id.slice(8), 1); dupdate();" value="usun zaznaczone" />
+    <input type="button" onclick="send(this);" value="wyslij!" />
     </form>
 
     <script>
     var arr = [];
 
     function verifyInt( that, val ) {
-        if( parseInt(that.value) > 0 ) return true;
+        if( parseInt(that.value) > 0 ) {
+            that.value = parseInt(that.value);
+            return true;
+        }
         else that.value = val;
         return false;
     }
     function verifyAll( form ) {
-        return verifyInt( form.koszt, "koszt" ) & verifyInt( form.zadanie, "zadanie" );
+        return verifyInt( form.firma, 1 ) & verifyInt( form.koszt, "koszt" ) & verifyInt( form.zadanie, "zadanie" );
     }
     function dupdate() {
         var tmp = ""
         for(a in arr) tmp += '<input type=radio name="toRemove" id="toRemove' + a + '" "value=' + a + ' />' + a + ' -> ' + arr[a] + '<br />';
         document.getElementById("dupa").innerHTML = tmp;
         document.getElementById("toRemove0").checked=true;
+    }
+    function send(that) {
+        var tmp = "id_firmy="+parseInt(that.form.firma.value)+"&operacje_slownik=" + JSON.stringify( [arr] );
+        $.ajax({
+          type: "POST",
+          url: "/DodajZlecenie",
+          data: tmp
+          //success: success,
+          //dataType: dataType
+        });
     }
     dupdate();
     </script>
