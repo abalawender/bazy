@@ -150,7 +150,11 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
             if mapReq in ("DodajZlecenie"):
                 import test
                 serwis = test.SerwisBazodanowy()
-                serwis.DodajZlecenie( parsed2['id_firmy'], eval( parsed2['operacje_slownik'] ) )
+                serwis.DodajZlecenie( int(parsed2['id_firmy']), eval( parsed2['operacje_slownik'] ) )
+                self.send_response(200)
+            elif mapReq in self.valid:
+                record = eval(mapReq)( **parsed2 )
+                session.add( record )
                 try:
                     session.flush()
                     self.send_response(200)
@@ -159,6 +163,7 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
                     print("B-Baka!")
                     session.rollback()
                     self.send_response(418, "Sorry, I'm just a teapot")
+
             elif mapReq in ("firmy"):
                 self.cookie= http.cookies.SimpleCookie()
                 if 'cookie' in self.headers:
@@ -173,9 +178,6 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
                     self.send_header('Set-Cookie', morsel.output(header='').lstrip())
                 self.end_headers()
                 self.wfile.write( bytes(env['retVal'], 'utf-8' ) )
-            elif mapReq in self.valid:
-                record = eval(mapReq)( **parsed2 )
-                session.add(record)
             self.end_headers()
 
         else:
