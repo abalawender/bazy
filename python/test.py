@@ -11,6 +11,8 @@ Base.metadata.create_all()
 now = datetime.datetime.now()
 
 class SerwisBazodanowy:
+    def __init__(self):
+        self.session = session
     def wyswietlZawartoscWszystkichTabel(self):
             print( "Tabele: ", mapper.engine.table_names() )
 
@@ -73,6 +75,9 @@ class SerwisBazodanowy:
 
     def PobierzZlecenie(self, idZadania):
         return session.query(Zlecenie).filter(Zlecenie.id == idZadania)[0]
+
+    def PobierzWszystkieMaszyny(self):
+        return session.query(Maszyna)
 
     def PobierzPermutacje(self, idZlecenia):
         return session.query(PermutacjaOperacji).join(Operacja).join(Zadanie)\

@@ -27,13 +27,46 @@ if 'id' in parameters and zalogowany:
 
     retVal += "<tr><td><a href=gantt?id=" + str(zadanieId) + ">Wykres gantta</a></td></tr>"
     retVal += "</table>"
+
+
     retVal += """
-    <form action="/DodajZlecenie" method="POST">
-    <input type="text" name="id_firmy" value="%s" hidden="true">
-    <input type="text" name="operacje_slownik" >
-    <input type="submit" value="Zapisz">
+    Zdefiniuj nową operację<br />
+    <form onsubmit="return false;">
+    <p id="dupa"></p>
+    <input type="text" value="%s" id="firma" hidden />
+    <input type="text" value="koszt" id="koszt" onchange="verifyInt(this, 'koszt'); " />
+    <input type="text" value="zadanie" id="zadanie" onchange="verifyInt(this, 'zadanie');" />""" % idFirmy
+
+    retVal += "<select name='maszyna'>\n"
+    for m in serwis.PobierzWszystkieMaszyny():
+        retVal += "<option value=" + str(m.id) + " >" + m.nazwa + "</option>\n"
+    retVal += "</select>\n"
+
+    retVal += """
+    <input type="button" onclick="f = this.form; if(verifyAll(f)) { arr.push([f.firma.value, f.koszt.value, f.zadanie.value, f.maszyna.value]); dupdate(); } else alert('niepoprawne dane!');" value="add" />
+    <input type="button" onclick="arr.splice( $('input[name=toRemove]:checked')[0].id.slice(8), 1); dupdate();" value="remove" />
     </form>
-    """ %  idFirmy
+
+    <script>
+    var arr = [];
+
+    function verifyInt( that, val ) {
+        if( parseInt(that.value) > 0 ) return true;
+        else that.value = val;
+        return false;
+    }
+    function verifyAll( form ) {
+        return verifyInt( form.koszt, "koszt" ) & verifyInt( form.zadanie, "zadanie" );
+    }
+    function dupdate() {
+        var tmp = ""
+        for(a in arr) tmp += '<input type=radio name="toRemove" id="toRemove' + a + '" "value=' + a + ' />' + a + ' -> ' + arr[a] + '<br />';
+        document.getElementById("dupa").innerHTML = tmp;
+        document.getElementById("toRemove0").checked=true;
+    }
+    dupdate();
+    </script>
+    """
     retVal += "</div>"
 
 
