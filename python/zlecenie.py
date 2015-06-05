@@ -19,10 +19,10 @@ if 'id' in parameters and zalogowany:
     zlecenie = serwis.PobierzZlecenie(zadanieId)
     nr_zadania = 1
     for zadanie in zlecenie.zadania:
-        retVal += "<tr><td> Zlecenie: " + str(nr_zadania) + "</td><td></td></tr>"
+        retVal += "<tr><td> Zadanie: " + str(nr_zadania) + "</td><td></td></tr>"
         nr_zadania += 1
         for operacja in zadanie.operacje:
-            retVal += "<tr><td></td><td> Zadanie: koszt "+ str(operacja.koszt) + ", maszyna " \
+            retVal += "<tr><td></td><td> Operacja: koszt "+ str(operacja.koszt) + ", maszyna " \
             + str(operacja.maszyny.nazwa) + "<td></tr>"
 
     retVal += "<tr><td><a href=gantt?id=" + str(zadanieId) + ">Wykres gantta</a></td></tr>"

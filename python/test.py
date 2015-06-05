@@ -65,8 +65,8 @@ class SerwisBazodanowy:
     def PobierzZadaniaFirmy(self, idFirmy):
         return session.query(Zlecenie).filter(Zlecenie.id_firmy==idFirmy)
 
-    def dodajFirme(self, nazwa, adres = None):
-        firma = DaneFirmy(nazwa=nazwa, adres=adres)
+    def dodajFirme(self, nazwa, adres = None, haslo='qwerty'):
+        firma = DaneFirmy(nazwa=nazwa, adres=adres, haslo=haslo)
         session.add(firma)
         session.flush()
         return firma
@@ -138,7 +138,7 @@ if __name__ == "__main__":
 
     firmy = []
     for nazwa in nazwyFirm:
-        firmy.append(serwis.dodajFirme(nazwa))
+        firmy.append(serwis.dodajFirme(nazwa=nazwa, haslo=nazwa[0:3].lower()))
 
     maszyny = []
     nazywyMaszyn = ['Frezarka nr 1',  'Frezarka nr 2', 'Frezarka nr 3', 'Tokarka',
@@ -147,7 +147,7 @@ if __name__ == "__main__":
         maszyny.append(serwis.DodajMaszyne(nazwaMaszyny))
 
     import random
-
+    slownik = [[(maszyna, koszt), (maszyna, koszt) ],[(maszyna, koszt)] ]
     for firma in firmy:
         for nrOperacji in range(0, random.randint(0, 10)):
             zlecenie = []

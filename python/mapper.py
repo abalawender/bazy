@@ -14,7 +14,7 @@ class DaneFirmy(Base):
         nazwa = Column(Text, nullable=False)
         adres = Column(Text)
         zlecenia = relationship("Zlecenie")
-
+        haslo = Column(Text, nullable=False)
         def __repr__(self):
             return "%i: %30s, %30s" % (self.id, self.nazwa, self.adres)
 
