@@ -7,7 +7,7 @@ try:
     delattr(so, "idFirmy")
     firma = serwis.PobierzFirme(idFirmy)
     retVal += "Wylogowano:" + firma.nazwa
-    retVal += "<br><a href=firmy> Kliknij, aby zalogowac się ponownie </a>"
+    retVal += "<br><a href=firmy> Kliknij, aby zalogowac sie ponownie </a>"
 except AttributeError:
     retVal += "Nie jestes zalgowowany!"
     pass

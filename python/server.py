@@ -3,10 +3,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import http.cookies
 import datetime as dt
 import urllib.parse
-import time
 import mapper
 from mapper import *
-from sqlalchemy.orm import sessionmaker
 import urllib.parse
 import json
 import random
@@ -71,13 +69,26 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
             with open(os.getcwd() + os.sep + self.path, 'rb') as fileHandle:
                 self.wfile.write(fileHandle.read())
         elif 'show' in self.path:
+            self.cookie= http.cookies.SimpleCookie()
+            if 'cookie' in self.headers:
+                self.cookie=http.cookies.SimpleCookie(self.headers["cookie"])
+            sesja = self.Session()
+            nazwaFirmy = "Brak"
+            try:
+                idFirmy = sesja.idFirmy
+                firma = serwisBazodanowy.PobierzFirme(idFirmy)
+                nazwaFirmy = firma.nazwa
+            except AttributeError:
+                pass
             mapReq = self.path.split('/')[-1]
             if mapReq in self.valid:
                 self.send_response(200)
                 self.end_headers()
                 cols = json.dumps( eval(mapReq).__table__.columns.keys(), 'utf-8' )
                 with open('show.html', 'r') as fileHandle:
-                    self.wfile.write( bytes( fileHandle.read().replace("$name$", mapReq ).replace("$columns$", cols ), 'utf-8' ) )
+                    self.wfile.write( bytes( fileHandle.read().replace("$name$", mapReq ) \
+                                             .replace("$columns$", cols ) \
+                                             .replace("$firma$", nazwaFirmy), 'utf-8'))
             else:
                 self.send_response(404, 'Not Found')
                 self.end_headers()
@@ -139,21 +150,34 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
             if mapReq in ("DodajZlecenie"):
                 import test
                 serwis = test.SerwisBazodanowy()
-                serwis.DodajZlecenie( parsed2['id_firmy'], eval( parsed2['operacje_slownik'] ) )
-            elif mapReg in ("firmy")
+                serwis.DodajZlecenie( int(parsed2['id_firmy']), eval( parsed2['operacje_slownik'] ) )
+                self.send_response(200)
             elif mapReq in self.valid:
                 record = eval(mapReq)( **parsed2 )
                 session.add( record )
+                try:
+                    session.flush()
+                    self.send_response(200)
+                    print( record )
+                except:
+                    print("B-Baka!")
+                    session.rollback()
+                    self.send_response(418, "Sorry, I'm just a teapot")
 
-            try:
-                session.flush()
+            elif mapReq in ("firmy"):
+                self.cookie= http.cookies.SimpleCookie()
+                if 'cookie' in self.headers:
+                    self.cookie=http.cookies.SimpleCookie(self.headers["cookie"])
+                env = { 'retVal' : '' , 'serwis' : serwisBazodanowy , 'parameters' : parsed2, \
+                        'Session':self.Session}
+                execReq = 'firmy.py'
                 self.send_response(200)
-                print( record )
-            except:
-                print("B-Baka!")
-                session.rollback()
-                self.send_response(418, "Sorry, I'm just a teapot")
-
+                with open( execReq ) as f:
+                    exec( compile(f.read(), execReq, 'exec' ), env )
+                for morsel in self.cookie.values():
+                    self.send_header('Set-Cookie', morsel.output(header='').lstrip())
+                self.end_headers()
+                self.wfile.write( bytes(env['retVal'], 'utf-8' ) )
             self.end_headers()
 
         else:

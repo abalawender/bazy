@@ -13,7 +13,7 @@ def Naglowek():
                 """
 def Zalogowany( firma ):
     return "<div style='position:absolute;top:20px;right:20px;border: 3px dotted green; border-radius: 15px;padding:15; width:400px; background-color:rgba(100,200,50,.1); text-align:center;'>\n" + \
-    "Jestes zalogowny jako: " + firma.nazwa + "<a href=wyloguj> Wyloguj </a>\n" + \
+    "Jestes zalogowny jako: " + firma.nazwa + "<a href=/exec/wyloguj> Wyloguj </a>\n" + \
     "</div>\n"
 
 def Menu():

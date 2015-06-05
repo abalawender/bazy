@@ -19,10 +19,10 @@ if 'id' in parameters and zalogowany:
     zlecenie = serwis.PobierzZlecenie(zadanieId)
     nr_zadania = 1
     for zadanie in zlecenie.zadania:
-        retVal += "<tr><td> Zlecenie: " + str(nr_zadania) + "</td><td></td></tr>"
+        retVal += "<tr><td> Zadanie: " + str(nr_zadania) + "</td><td></td></tr>"
         nr_zadania += 1
         for operacja in zadanie.operacje:
-            retVal += "<tr><td></td><td> Zadanie: koszt "+ str(operacja.koszt) + ", maszyna " \
+            retVal += "<tr><td></td><td> Operacja: koszt "+ str(operacja.koszt) + ", maszyna " \
             + str(operacja.maszyny.nazwa) + "<td></tr>"
 
     retVal += "<tr><td><a href=gantt?id=" + str(zadanieId) + ">Wykres gantta</a></td></tr>"
@@ -35,7 +35,7 @@ if 'id' in parameters and zalogowany:
     <p id="dupa"></p>
     <input type="text" value="%s" id="firma" hidden />
     <input type="text" value="koszt" id="koszt" onchange="verifyInt(this, 'koszt'); " />
-    <input type="text" value="zadanie" id="zadanie" onchange="verifyInt(this, 'zadanie');" />""" % idFirmy
+    <!--<input type="text" value="zadanie" id="zadanie" onchange="verifyInt(this, 'zadanie');" />-->""" % idFirmy
 
     retVal += "<select name='maszyna'>\n"
     for m in serwis.PobierzWszystkieMaszyny():
@@ -43,26 +43,40 @@ if 'id' in parameters and zalogowany:
     retVal += "</select>\n"
 
     retVal += """
-    <input type="button" onclick="f = this.form; if(verifyAll(f)) { arr.push([f.firma.value, f.koszt.value, f.zadanie.value, f.maszyna.value]); dupdate(); } else alert('niepoprawne dane!');" value="add" />
-    <input type="button" onclick="arr.splice( $('input[name=toRemove]:checked')[0].id.slice(8), 1); dupdate();" value="remove" />
+    <input type="button" onclick="f = this.form; if(verifyAll(f)) { arr.push([ parseInt(f.maszyna.value), parseInt(f.koszt.value)]); dupdate(); } else alert('niepoprawne dane!');" value="dodaj" />
+    <input type="button" onclick="arr.splice( $('input[name=toRemove]:checked')[0].id.slice(8), 1); dupdate();" value="usun zaznaczone" />
+    <input type="button" onclick="send(this);" value="wyslij!" />
     </form>
 
     <script>
     var arr = [];
 
     function verifyInt( that, val ) {
-        if( parseInt(that.value) > 0 ) return true;
+        if( parseInt(that.value) > 0 ) {
+            that.value = parseInt(that.value);
+            return true;
+        }
         else that.value = val;
         return false;
     }
     function verifyAll( form ) {
-        return verifyInt( form.koszt, "koszt" ) & verifyInt( form.zadanie, "zadanie" );
+        return verifyInt( form.firma, 1 ) & verifyInt( form.koszt, "koszt" ) & verifyInt( form.zadanie, "zadanie" );
     }
     function dupdate() {
         var tmp = ""
         for(a in arr) tmp += '<input type=radio name="toRemove" id="toRemove' + a + '" "value=' + a + ' />' + a + ' -> ' + arr[a] + '<br />';
         document.getElementById("dupa").innerHTML = tmp;
         document.getElementById("toRemove0").checked=true;
+    }
+    function send(that) {
+        var tmp = "id_firmy="+parseInt(that.form.firma.value)+"&operacje_slownik=" + JSON.stringify( [arr] );
+        $.ajax({
+          type: "POST",
+          url: "/DodajZlecenie",
+          data: tmp
+          //success: success,
+          //dataType: dataType
+        });
     }
     dupdate();
     </script>
